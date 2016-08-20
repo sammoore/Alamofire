@@ -83,7 +83,7 @@ extension Request {
 
         - returns: The request.
     */
-    public func response(
+    public func handleResponse(
         queue queue: dispatch_queue_t? = nil,
         completionHandler: (NSURLRequest?, NSHTTPURLResponse?, NSData?, NSError?) -> Void)
         -> Self
@@ -107,7 +107,7 @@ extension Request {
 
         - returns: The request.
     */
-    public func response<T: ResponseSerializerType>(
+    public func handleResponse<T: ResponseSerializerType>(
         queue queue: dispatch_queue_t? = nil,
         responseSerializer: T,
         completionHandler: Response<T.SerializedObject, T.ErrorObject> -> Void)
@@ -183,7 +183,7 @@ extension Request {
         completionHandler: Response<NSData, NSError> -> Void)
         -> Self
     {
-        return response(queue: queue, responseSerializer: Request.dataResponseSerializer(), completionHandler: completionHandler)
+        return handleResponse(queue: queue, responseSerializer: Request.dataResponseSerializer(), completionHandler: completionHandler)
     }
 }
 
@@ -251,7 +251,7 @@ extension Request {
         completionHandler: Response<String, NSError> -> Void)
         -> Self
     {
-        return response(
+        return handleResponse(
             queue: queue,
             responseSerializer: Request.stringResponseSerializer(encoding: encoding),
             completionHandler: completionHandler
@@ -309,7 +309,7 @@ extension Request {
         completionHandler: Response<AnyObject, NSError> -> Void)
         -> Self
     {
-        return response(
+        return handleResponse(
             queue: queue,
             responseSerializer: Request.JSONResponseSerializer(options: options),
             completionHandler: completionHandler
@@ -369,7 +369,7 @@ extension Request {
         completionHandler: Response<AnyObject, NSError> -> Void)
         -> Self
     {
-        return response(
+        return handleResponse(
             queue: queue,
             responseSerializer: Request.propertyListResponseSerializer(options: options),
             completionHandler: completionHandler
